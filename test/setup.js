@@ -1,19 +1,18 @@
-import { vi } from 'vitest';
+import {vi} from 'vitest';
 
-global.mockReq = (body = {}, params = {}, query = {}) => ({
-  body,
-  params,
-  query,
-  headers: {}
+// Mocks globais - úteis para diversos testes
+global.mockReq = (body = {}, session = {}) => ({
+    body,
+    session,
+    flash: vi.fn(),
+    get: vi.fn()
 });
 
 global.mockRes = () => {
-  const res = {};
-  res.statusCode = 200;
-  res.setHeader = vi.fn();
-  res.writeHead = vi.fn().mockReturnValue(res);
-  res.end = vi.fn().mockReturnValue(res);
-  res.write = vi.fn().mockReturnValue(res);
-  return res;
+    const res = {};
+    res.status = vi.fn().mockReturnValue(res);
+    res.json = vi.fn().mockReturnValue(res);
+    res.redirect = vi.fn().mockReturnValue(res);
+    res.render = vi.fn().mockReturnValue(res);
+    return res;
 };
-
